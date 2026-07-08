@@ -3,6 +3,8 @@
 import { useState } from "react";
 
 const categories = ["Realistic", "Anime", "Product", "Logo", "Fashion", "Cars", "Food", "Interior"];
+const providers = ["Hugging Face", "Replicate", "OpenAI", "Google"];
+const models = ["Stable Diffusion XL", "FLUX Schnell", "DreamShaper", "RealVis XL"];
 const ratios = ["1:1", "9:16", "16:9", "3:4", "4:3"];
 
 export default function ImageGeneratorPage() {
@@ -11,12 +13,12 @@ export default function ImageGeneratorPage() {
   return (
     <main className="min-h-screen bg-black p-6 text-white">
       <div className="mx-auto max-w-7xl">
-        <a href="/dashboard" className="text-sm text-gray-400">← Back to Dashboard</a>
+        <a href="/models" className="text-sm text-gray-400">← Back to Models</a>
 
         <div className="mt-8 flex items-center justify-between">
           <div>
             <h1 className="text-4xl font-bold">AI Image Generator</h1>
-            <p className="mt-2 text-gray-400">Select a style, write your prompt, and create images.</p>
+            <p className="mt-2 text-gray-400">Choose provider, model, style and create images.</p>
           </div>
           <div className="rounded-full border border-white/10 px-4 py-2 text-sm">15 Credits</div>
         </div>
@@ -33,13 +35,20 @@ export default function ImageGeneratorPage() {
             </div>
 
             <div className="mt-6">
+              <label className="text-sm text-gray-400">Provider</label>
+              <select className="mt-2 w-full rounded-xl border border-white/10 bg-black p-4">
+                {providers.map((provider) => (
+                  <option key={provider}>{provider}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="mt-6">
               <label className="text-sm text-gray-400">Model</label>
               <select className="mt-2 w-full rounded-xl border border-white/10 bg-black p-4">
-                <option>GPT Image</option>
-                <option>FLUX Dev</option>
-                <option>Stable Diffusion XL</option>
-                <option>Juggernaut XL</option>
-                <option>Animagine XL</option>
+                {models.map((model) => (
+                  <option key={model}>{model}</option>
+                ))}
               </select>
             </div>
 

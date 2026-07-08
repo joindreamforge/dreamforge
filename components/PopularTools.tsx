@@ -1,10 +1,10 @@
 const tools = [
-  "AI Image Generator",
-  "AI Video Generator",
-  "AI Prompt Generator",
-  "AI Caption Generator",
-  "Background Remover",
-  "Image Upscaler",
+  "🖼️ AI Image Enhancer",
+  "🎨 AI Image Generator",
+  "🎥 AI Video Generator",
+  "🧹 Background Remover",
+  "🔍 Image Upscaler",
+  "✂️ Object Remover",
 ];
 
 export default function PopularTools() {
