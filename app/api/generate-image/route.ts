@@ -9,10 +9,7 @@ export async function POST(req: Request) {
     const { prompt } = await req.json();
 
     if (!prompt) {
-      return NextResponse.json(
-        { error: "Prompt is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
     }
 
     const token = process.env.HUGGINGFACE_API_TOKEN;
@@ -25,45 +22,43 @@ export async function POST(req: Request) {
     }
 
     const response = await fetch(
-      `https://api-inference.huggingface.co/models/${MODEL}`,
+      `https://router.huggingface.co/hf-inference/models/${MODEL}`,
       {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
+          Accept: "image/png",
         },
         body: JSON.stringify({
-          inputs: prompt,
-          options: {
-            wait_for_model: true,
-          },
-        }),
+  inputs: prompt,
+  parameters: {
+    num_inference_steps: 4,
+  },
+  options: {
+    wait_for_model: true,
+  },
+}),
       }
     );
 
     if (!response.ok) {
       const error = await response.text();
-      return NextResponse.json(
-        { error },
-        { status: response.status }
-      );
+      console.error("HF ERROR:", error);
+      return NextResponse.json({ error }, { status: response.status });
     }
 
     const buffer = await response.arrayBuffer();
-
     const base64 = Buffer.from(buffer).toString("base64");
 
     return NextResponse.json({
       image: `data:image/png;base64,${base64}`,
     });
   } catch (err: any) {
+    console.error("FULL ERROR:", err);
     return NextResponse.json(
-      {
-        error: err.message,
-      },
-      {
-        status: 500,
-      }
+      { error: err?.message || "Image generation failed" },
+      { status: 500 }
     );
   }
 }
